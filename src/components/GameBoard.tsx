@@ -5,6 +5,7 @@ import HeroInfo from "./HeroInfo";
 import Field from "./Field";
 import Card from "./Card";
 import TargetingArrow from "./TargetingArrow";
+import { PawPrintPattern, BonePattern } from "./BackgroundPatterns";
 
 interface GameBoardProps {
   turn: number;
@@ -119,9 +120,18 @@ export default function GameBoard({
 
       <div className="flex flex-1 flex-col gap-2 p-4 overflow-y-auto">
         {/* TOP: Enemy Section */}
-        <section className="relative flex-none rounded-3xl border border-red-500/30 bg-red-900/20 p-4 shadow-inner shadow-red-900/20">
+        <section className="relative flex-none rounded-3xl border border-red-900/50 bg-gradient-to-b from-red-950 to-purple-950 p-4 shadow-lg shadow-red-900/20 overflow-hidden">
+          <BonePattern opacity={0.03} className="text-red-200" />
+
+          {/* Decorative Props (Enemy) */}
+          <div className="absolute -right-4 -top-4 h-24 w-24 opacity-10 pointer-events-none">
+            <svg viewBox="0 0 24 24" fill="currentColor" className="text-red-500">
+              <path d="M12 2L2 7l10 5 10-5-10-5zm0 9l2.5-1.25L12 8.5l-2.5 1.25L12 11zm0 2.5l-5-2.5-5 2.5L12 22l10-8.5-5-2.5-5 2.5z" />
+            </svg>
+          </div>
+
           {/* Enemy Hero Info Overlay or Header */}
-          <div className="mb-2 flex items-center justify-between">
+          <div className="relative mb-2 flex items-center justify-between z-10">
             <HeroInfo
               hero={enemyHero}
               health={enemyHealth}
@@ -129,7 +139,7 @@ export default function GameBoard({
               layout="row"
               compact
             />
-            <div className="text-xs uppercase tracking-[0.3em] text-white/60">
+            <div className="text-xs uppercase tracking-[0.3em] text-red-200/60 font-bold">
               Enemy Field
             </div>
           </div>
@@ -139,12 +149,15 @@ export default function GameBoard({
             onCardClick={onEnemyFieldCardClick}
             showCost={false}
             validTargetIds={validTargetIds}
+            className="relative z-10"
           />
         </section>
 
         {/* MIDDLE: Player Field */}
-        <section className="flex-1 rounded-3xl border border-blue-500/30 bg-blue-900/20 p-4 shadow-inner shadow-blue-900/20 min-h-[150px]">
-          <div className="mb-2 flex items-center justify-between text-xs uppercase tracking-[0.3em] text-white/60">
+        <section className="relative flex-1 rounded-3xl border border-blue-900/50 bg-gradient-to-b from-teal-950 to-slate-900 p-4 shadow-lg shadow-blue-900/20 min-h-[150px] overflow-hidden">
+          <PawPrintPattern opacity={0.03} className="text-blue-200" />
+
+          <div className="relative mb-2 flex items-center justify-between text-xs uppercase tracking-[0.3em] text-blue-200/60 font-bold z-10">
             <span>Your Dogs</span>
             <span>{playerField.length}/7</span>
           </div>
@@ -154,20 +167,23 @@ export default function GameBoard({
             showCost={false}
             selectedCardId={selectedAttacker?.uid}
             canAttackIds={canAttackIds}
+            className="relative z-10"
           />
         </section>
 
         {/* BOTTOM: Player Hand & Controls */}
         <section className="flex-none space-y-2">
           {/* Hand */}
-          <div className="rounded-3xl border border-green-500/30 bg-green-900/20 p-3 shadow-inner shadow-green-900/20">
-            <div className="mb-2 flex items-center justify-between">
-              <div className="text-sm font-bold text-white">Your Hand</div>
-              <div className="text-xs uppercase tracking-[0.3em] text-white/60">
+          <div className="relative rounded-3xl border border-green-900/50 bg-gradient-to-r from-green-950 to-emerald-950 p-3 shadow-lg shadow-green-900/20 overflow-hidden">
+            <PawPrintPattern opacity={0.02} className="text-green-200" />
+
+            <div className="relative mb-2 flex items-center justify-between z-10">
+              <div className="text-sm font-bold text-green-100">Your Hand</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-green-200/60">
                 {playerHand.length}/10
               </div>
             </div>
-            <div className="flex flex-wrap gap-2 justify-center">
+            <div className="relative flex flex-wrap gap-2 justify-center z-10">
               {playerHand.map((card) => (
                 <Card
                   key={card.uid}

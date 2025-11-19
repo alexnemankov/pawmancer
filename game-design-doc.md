@@ -958,7 +958,10 @@ This section outlines the planned development tasks with priorities and dependen
   - **Target Highlights:** Valid targets now glow red (`ring-4 ring-red-500`) with a crosshair cursor when an attacker is selected.
   - **Hero Power Button:** Added visual readiness state; button pulses and glows purple when the player has enough treats and the ability is unused.
   - **Card Affordances:** Added "lift" hover effects (`hover:-translate-y-2`) and shadow depth to cards in hand to indicate interactivity.
-- [ ] **Visual theming:** Replace flat bands with pawprint or bone patterns, add subtle props near hero zones, and apply gradients that distinguish enemy vs. player halves.
+- [x] **Visual theming:** Replace flat bands with pawprint or bone patterns, add subtle props near hero zones, and apply gradients that distinguish enemy vs. player halves.
+  - **Backgrounds:** Implemented `BackgroundPatterns.tsx` with SVG Bone (Enemy) and PawPrint (Player) patterns.
+  - **Gradients:** Applied deep Crimson/Purple for Enemy and Teal/Navy for Player zones.
+  - **Props:** Added decorative SVG elements to the enemy zone.
 - [ ] **Microinteractions & effects:** Implement hover/ready glows, attack-ready pulses, turn-start banners, and thematic particles for abilities (scratches, sparkles, summon dust).
 
 ---
