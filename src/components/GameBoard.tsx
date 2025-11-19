@@ -2,7 +2,6 @@ import { Hero, Card as CardType } from "../types/game";
 import GameHeader from "./GameHeader";
 import HeroInfo from "./HeroInfo";
 import Field from "./Field";
-import GameActions from "./GameActions";
 import Card from "./Card";
 
 interface GameBoardProps {
@@ -69,7 +68,7 @@ export default function GameBoard({
   );
 
   return (
-    <div className="w-full min-h-screen bg-gradient-to-br from-slate-800 to-slate-900 p-4">
+    <div className="flex h-screen w-full flex-col bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 overflow-hidden">
       <GameHeader
         turn={turn}
         isPlayerTurn={isPlayerTurn}
@@ -79,108 +78,114 @@ export default function GameBoard({
         showTutorialPulse={showGuidedHints}
       />
 
-      {/* Enemy Section */}
-      {showGuidedHints && (
-        <div className="mb-2 rounded-lg border border-cyan-400/60 bg-cyan-500/10 p-3 text-sm text-cyan-100">
-          <span className="font-semibold">Step 1:</span> Watch the{" "}
-          <span className="font-semibold">enemy row</span> to track the dogs you
-          must defeat before striking their hero.
-        </div>
-      )}
-      <div className="mb-6 bg-red-900/20 border-2 border-red-500 rounded-lg p-4">
-        <div className="flex justify-between items-center mb-4">
-          <HeroInfo hero={enemyHero} health={enemyHealth} />
-          <div className="text-white text-xl font-bold">Enemy</div>
-        </div>
-        <Field
-          cards={enemyField}
-          onCardClick={onEnemyFieldCardClick}
-          showCost={false}
-        />
-      </div>
-
-      {/* Player Field Section */}
-      {showGuidedHints && (
-        <div className="mb-2 rounded-lg border border-emerald-400/60 bg-emerald-400/10 p-3 text-sm text-emerald-100">
-          <span className="font-semibold">Step 2:</span> Play dogs to this{" "}
-          <span className="font-semibold">battlefield</span>. Ready dogs highlight
-          in teal—select one and then choose an enemy to attack.
-        </div>
-      )}
-      <div className="mb-6 bg-blue-900/20 border-2 border-blue-500 rounded-lg p-4">
-        <Field
-          cards={playerField}
-          onCardClick={onPlayerFieldCardClick}
-          showCost={false}
-          selectedCardId={selectedAttacker?.uid}
-          canAttackIds={canAttackIds}
-          title="Your Dogs"
-        />
-      </div>
-
-      {/* Player Section */}
-      <div className="bg-green-900/20 border-2 border-green-500 rounded-lg p-4">
-        <div className="flex justify-between items-center mb-4">
-          <HeroInfo
-            hero={playerHero}
-            health={playerHealth}
-            treats={playerTreats}
-            maxTreats={maxTreats}
-            showTreats={true}
-          />
-          <GameActions
-            onHeroAbility={onHeroAbility}
-            onEndTurn={onEndTurn}
-            onAttackEnemy={onAttackEnemy}
-            heroAbilityCost={playerHero?.abilityCost}
-            isPlayerTurn={isPlayerTurn}
-            canUseHeroAbility={canUseHeroAbility}
-            canAttackEnemy={canAttackEnemy}
-          />
-        </div>
-        {showGuidedHints && (
-          <div className="mb-4 rounded-lg border border-amber-300/60 bg-amber-200/10 p-3 text-sm text-amber-100">
-            <span className="font-semibold">Step 3:</span> Use your{" "}
-            <span className="font-semibold">Hero Ability</span> for unique perks
-            and press <span className="font-semibold">End Turn</span> once
-            you&apos;ve played cards.
-          </div>
-        )}
-        <div className="text-white text-lg font-bold mb-2">Your Hand</div>
-        {showGuidedHints && (
-          <div className="mb-2 rounded-lg border border-purple-300/60 bg-purple-200/10 p-3 text-sm text-purple-100">
-            <span className="font-semibold">Step 4:</span> Click a card in your
-            hand to play it. Costs are shown in the top-left corner and spend
-            Treats.
-          </div>
-        )}
-        <div className="flex gap-2 flex-wrap">
-          {playerHand.map((card) => (
-            <Card
-              key={card.uid}
-              card={card}
-              onClick={() => onHandCardClick(card)}
-              disabled={!isPlayerTurn || playerTreats < card.cost}
-              isSelected={selectedCard?.uid === card.uid}
+      <div className="flex flex-1 flex-col gap-2 p-4 overflow-y-auto">
+        {/* TOP: Enemy Section */}
+        <section className="relative flex-none rounded-3xl border border-red-500/30 bg-red-900/20 p-4 shadow-inner shadow-red-900/20">
+          {/* Enemy Hero Info Overlay or Header */}
+          <div className="mb-2 flex items-center justify-between">
+            <HeroInfo
+              hero={enemyHero}
+              health={enemyHealth}
+              iconSize={24}
+              layout="row"
+              compact
             />
-          ))}
-        </div>
-        {showGuidedHints && (
-          <div className="mt-4 flex flex-wrap items-center gap-3">
-            <button
-              type="button"
-              onClick={onDismissGuidedHints}
-              className="rounded-full border border-white/50 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-white/10"
-            >
-              Hide Tips
-            </button>
-            <p className="text-xs text-white/70">
-              You can reopen the tutorial anytime from the top bar.
-            </p>
+            <div className="text-xs uppercase tracking-[0.3em] text-white/60">
+              Enemy Field
+            </div>
           </div>
-        )}
+
+          <Field
+            cards={enemyField}
+            onCardClick={onEnemyFieldCardClick}
+            showCost={false}
+          />
+        </section>
+
+        {/* MIDDLE: Player Field */}
+        <section className="flex-1 rounded-3xl border border-blue-500/30 bg-blue-900/20 p-4 shadow-inner shadow-blue-900/20 min-h-[150px]">
+          <div className="mb-2 flex items-center justify-between text-xs uppercase tracking-[0.3em] text-white/60">
+            <span>Your Dogs</span>
+            <span>{playerField.length}/7</span>
+          </div>
+          <Field
+            cards={playerField}
+            onCardClick={onPlayerFieldCardClick}
+            showCost={false}
+            selectedCardId={selectedAttacker?.uid}
+            canAttackIds={canAttackIds}
+          />
+        </section>
+
+        {/* BOTTOM: Player Hand & Controls */}
+        <section className="flex-none space-y-2">
+          {/* Hand */}
+          <div className="rounded-3xl border border-green-500/30 bg-green-900/20 p-3 shadow-inner shadow-green-900/20">
+            <div className="mb-2 flex items-center justify-between">
+              <div className="text-sm font-bold text-white">Your Hand</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-white/60">
+                {playerHand.length}/10
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-2 justify-center">
+              {playerHand.map((card) => (
+                <Card
+                  key={card.uid}
+                  card={card}
+                  onClick={() => onHandCardClick(card)}
+                  disabled={!isPlayerTurn || playerTreats < card.cost}
+                  isSelected={selectedCard?.uid === card.uid}
+                  scale={0.85}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Player Controls Bar */}
+          <div className="flex items-center gap-4 rounded-3xl border border-white/10 bg-slate-900/60 p-3 shadow-lg backdrop-blur-sm">
+            {/* Player Hero Info */}
+            <div className="flex-1">
+              <HeroInfo
+                hero={playerHero}
+                health={playerHealth}
+                treats={playerTreats}
+                maxTreats={maxTreats}
+                showTreats
+                iconSize={32}
+                layout="row"
+              />
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={onHeroAbility}
+                disabled={!canUseHeroAbility}
+                className="flex flex-col items-center justify-center rounded-xl border border-white/10 bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 text-white transition hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <span className="text-xs font-bold uppercase tracking-wider">Ability</span>
+                <span className="text-[10px] opacity-80">{playerHero.abilityCost} Treats</span>
+              </button>
+
+              <button
+                onClick={onAttackEnemy}
+                disabled={!canAttackEnemy}
+                className="rounded-xl bg-gradient-to-r from-red-500 to-orange-500 px-6 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Attack Enemy
+              </button>
+
+              <button
+                onClick={onEndTurn}
+                disabled={!isPlayerTurn}
+                className="rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 px-6 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                End Turn
+              </button>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );
 }
-

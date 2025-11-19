@@ -940,7 +940,26 @@ This section outlines the planned development tasks with priorities and dependen
 
 ---
 
-#### 10. Campaign Mode Section (Medium Priority)
+#### 10. Combat Board UX Overhaul (High Priority)
+
+**Purpose:** Address the new layout critique by tightening the battlefield, clarifying available actions, and reinforcing the playful Pawmancer theme.
+
+**Dependencies:** Hero roster and selection refresh (Tasks 7-9) so the combat screen can take center stage.
+
+**Tasks:**
+
+- [x] **Compress battlefield layout:** Game screen now uses a three-column layout with a slimmed header, clustered hero/treat modules, and tighter spacing between enemy/player lanes.
+  - Header bar trimmed to a tighter `py-2` padding and darker strip, keeping turn text + tutorial affordances visible without consuming vertical space.
+  - Enemy and player rows now sit inside a shared column container with a modest gap (`gap-y-4`), minimizing the dead band between halves and keeping the 'Your Dogs' label from creating extra whitespace.
+  - New `HeroPanel` clusters hero portrait, health, treats, and (for the player) hero power using `flex items-center gap-3`, eliminating stray counters and ensuring the info always travels with each hero banner.
+- [ ] **Clarify hierarchy:** Make hero health/treat counters larger, consolidate “Turn/Your Turn/message” into one celebratory banner, and move End Turn / Attack Enemy into a dedicated control corner.
+- [ ] **Interaction feedback:** Add attack arrows and target highlights, bake costs/readiness into the hero power button, and provide drag/hover affordances for playable cards.
+- [ ] **Visual theming:** Replace flat bands with pawprint or bone patterns, add subtle props near hero zones, and apply gradients that distinguish enemy vs. player halves.
+- [ ] **Microinteractions & effects:** Implement hover/ready glows, attack-ready pulses, turn-start banners, and thematic particles for abilities (scratches, sparkles, summon dust).
+
+---
+
+#### 11. Campaign Mode Section (Medium Priority)
 
 **Dependencies:** None
 
@@ -958,7 +977,7 @@ This section outlines the planned development tasks with priorities and dependen
 
 ---
 
-#### 11. Multiplayer Mode Additions (Medium Priority)
+#### 12. Multiplayer Mode Additions (Medium Priority)
 
 **Dependencies:** Basic balance and rules must be updated first (Tasks 1-3)
 
@@ -973,7 +992,7 @@ This section outlines the planned development tasks with priorities and dependen
 
 ---
 
-#### 12. Progression, Achievements & Unlocks (Medium Priority)
+#### 13. Progression, Achievements & Unlocks (Medium Priority)
 
 **Dependencies:** None
 
@@ -990,9 +1009,9 @@ This section outlines the planned development tasks with priorities and dependen
 
 ---
 
-#### 13. Monetization (Optional) (Low/Medium Priority)
+#### 14. Monetization (Optional) (Low/Medium Priority)
 
-**Dependencies:** Unlock/progression section must be added first (Task 12)
+**Dependencies:** Unlock/progression section must be added first (Task 13)
 
 - [ ] **Cosmetic shop items:** Define cosmetic-only purchases
 - [ ] **Battle pass model:** Seasonal battle pass structure
@@ -1002,9 +1021,9 @@ This section outlines the planned development tasks with priorities and dependen
 
 ---
 
-#### 14. Technical GDD Updates (Medium Priority)
+#### 15. Technical GDD Updates (Medium Priority)
 
-**Dependencies:** New features must be described first (Tasks 10-13)
+**Dependencies:** New features must be described first (Tasks 10-14)
 
 - [ ] **Ability system architecture:** Update with new ability patterns
 - [ ] **Multiplayer backend section:** API, sockets, matchmaking service
@@ -1013,7 +1032,7 @@ This section outlines the planned development tasks with priorities and dependen
 
 ---
 
-#### 15. Future Scalability Updates (Low Priority)
+#### 16. Future Scalability Updates (Low Priority)
 
 **Dependencies:** None
 
@@ -1027,9 +1046,9 @@ This section outlines the planned development tasks with priorities and dependen
 
 ---
 
-#### 16. Document Restructure Tasks (Low Priority)
+#### 17. Document Restructure Tasks (Low Priority)
 
-**Dependencies:** After adding all new sections (Tasks 10-14)
+**Dependencies:** After adding all new sections (Tasks 10-15)
 
 - [ ] **Reorganize table of contents:** Update with new sections
 - [ ] **Add cross links:** Link related sections together
@@ -1043,143 +1062,35 @@ This section outlines the planned development tasks with priorities and dependen
 
 **Phase 1 (Critical Balance):**
 
-1. Tasks 1-3 (Balance Changes, Hero Balance, Core Rules) - ✅ **COMPLETED**
+1. Tasks 1-3 (Balance Changes, Hero Balance, Core Rules) - ? **COMPLETED**
 
 **Phase 2 (New High Priority Features):**
 
-2. Task 5 (Start Screen) - ✅ **COMPLETED**
-3. Task 6 (Tutorial Modal) - ✅ **COMPLETED**
-4. Task 7 (Reduce Hero Roster) - ✅ **COMPLETED**
-5. Task 8 (Update GDD Content) - ✅ **COMPLETED**
-6. Task 9 (Improve Hero Selection UI) - ✅ **COMPLETED**
+2. Task 5 (Start Screen) - ? **COMPLETED**
+3. Task 6 (Tutorial Modal) - ? **COMPLETED**
+4. Task 7 (Reduce Hero Roster) - ? **COMPLETED**
+5. Task 8 (Update GDD Content) - ? **COMPLETED**
+6. Task 9 (Improve Hero Selection UI) - ? **COMPLETED**
+7. Task 10 (Combat Board UX Overhaul) - Layout compression underway
 
 **Phase 3 (Core Features):**
 
-7. Task 4 (Missing Abilities) - ✅ **COMPLETED**
-8. Task 10 (Campaign Mode) - Can start after Phase 2
+8. Task 4 (Missing Abilities) - ? **COMPLETED**
+9. Task 11 (Campaign Mode) - Can start after Phase 2
 
 **Phase 4 (Extended Features):**
 
-9. Task 12 (Progression System) - Can start in parallel
-10. Task 11 (Multiplayer) - After Phase 2 & 3
-11. Task 13 (Monetization) - After Task 12
+10. Task 12 (Multiplayer) - After Phase 2 & 3
+11. Task 13 (Progression System) - Can start in parallel
+12. Task 14 (Monetization) - After Task 13
 
 **Phase 5 (Documentation & Polish):**
 
-12. Task 14 (Technical Updates) - After features are defined
-13. Task 15 (Future Scalability) - Ongoing planning
-14. Task 16 (Document Restructure) - Final step
+13. Task 15 (Technical Updates) - After features are defined
+14. Task 16 (Future Scalability) - Ongoing planning
+15. Task 17 (Document Restructure) - Final step
 
----
-
-## Future Features
-
-> **Note:** For detailed implementation roadmap with priorities and dependencies, see [Development Roadmap](#development-roadmap) section.
-
-### High Priority Features (See Roadmap Tasks 1-9)
-
-- Complete balance changes (cards, heroes, spells) - ✅ **COMPLETED**
-- Core rule improvements (hand limit, field limit, deck-out) - ✅ **COMPLETED**
-- Missing ability implementations (Rally, Fetch, Glass Cannon, Colossal) - ✅ **COMPLETED**
-- **Start Screen** - New entry point with branding and navigation - ✅: **COMPLETED**
-- **Tutorial Modal** - In-game rules and tutorial system - ✅: **COMPLETED**
-- **Reduce Hero Roster** - Streamline to 3 heroes (Rex, Buddy, Shadow) - ✅: **COMPLETED**
-- **Hero Selection UI Improvements** - Enhanced visual design and interactions - ✅: **COMPLETED**
-- **UI/UX Polish** - Visual hierarchy, animations, targeting feedback, sound cues
-
-### Medium Priority Features (See Roadmap Tasks 10-14)
-
-- Campaign mode with story progression
-- Multiplayer PvP (casual and ranked)
-- Progression system (XP, achievements, unlocks)
-- Monetization (cosmetics, battle pass)
-
-### Low Priority Features (See Roadmap Tasks 9-11)
-
-- Advanced game modes (Arena, Draft, Tournament)
-- Social features (leaderboards, friends, spectating)
-- Content expansions (new card sets, seasonal events)
-- Platform expansion (mobile, PWA)
-
-### Technical Improvements
-
-- Full TypeScript implementation
-- Comprehensive testing suite
-- State management refactor
-- Performance optimization
-- Mobile responsive design
-
----
-
-## Card Ability Reference
-
-### How to Read Abilities
-
-When implementing new abilities, check the ability text string for keywords:
-
-- **"Gain X treat(s)"** - Add treats to player
-- **"Draw X card(s)"** - Draw from deck
-- **"Heal X"** - Restore health
-- **"Deal X damage"** - Reduce enemy health
-- **"Rush"** - Can attack immediately
-- **"Taunt"** - Must be attacked first
-- **"Dodge"** or **"Evasion"** - Chance to avoid damage
-- **"Sturdy"** - Reduce incoming damage by 1
-- **"Summon:"** - Effect when played
-- **"Fetch:"** - Effect when dies (draw a card)
-- **"Rally:"** - Effect to all allies (+1 attack to all allies)
-- **"Glass Cannon"** - +1 bonus damage when attacking
-- **"Colossal:"** - Deal 2 damage to all enemies when played
-- **"Draw on attack"** - Effect when attacking
-
-### Ability Implementation Pattern
-
-Most abilities are checked using `card.ability.includes("keyword")`. This is a simple string matching approach. For more complex abilities, consider:
-
-1. Parsing ability text into structured data
-2. Using ability IDs instead of text matching
-3. Creating an ability system with registered effects
-
----
-
-## Notes for Developers
-
-### Adding New Cards
-
-1. Add card object to `CARD_LIBRARY` array
-2. If dog card: Add type to `typeColors` in Card component
-3. If spell: Add effect logic to `playSpell()` function
-4. If item: Add effect logic to `applyItemToDog()` function
-5. If dog has new ability: Add logic to `playDog()` or `attack()` functions
-
-### Adding New Heroes
-
-1. Add hero object to `HEROES` array
-2. Import icon from lucide-react
-3. Add case to `useHeroAbility()` switch statement
-4. Hero will automatically appear in selection screen
-
-### Modifying Game Rules
-
-- Treat system: Modify `maxTreats` logic in `enemyTurn()`
-- Starting hand: Modify `startGame()` function
-- Draw per turn: Modify `enemyTurn()` and start of player turn
-- Field limits: Add checks in `playDog()` function
-
-### AI Improvements
-
-Current AI is very simple (random card play, random targeting). To improve:
-
-1. Add card evaluation (value cards by cost/stat ratio)
-2. Add threat assessment (prioritize high-value targets)
-3. Add resource management (save treats for better cards)
-4. Add difficulty levels (adjust AI decision making)
-
----
-
-## Version History
-
-### v1.1 (Current)
+---### v1.1 (Current)
 
 - Added Development Roadmap with priorities and dependencies
 - Updated Future Features section
@@ -1198,5 +1109,4 @@ Current AI is very simple (random card play, random targeting). To improve:
 ---
 
 **End of Document**
-
 

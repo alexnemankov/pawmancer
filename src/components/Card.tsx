@@ -9,6 +9,7 @@ interface CardProps {
   isSelected?: boolean;
   showCost?: boolean;
   canAttack?: boolean;
+  scale?: number;
 }
 
 export default function Card({
@@ -18,17 +19,17 @@ export default function Card({
   isSelected = false,
   showCost = true,
   canAttack = false,
+  scale = 1,
 }: CardProps) {
   const cardColor = getCardTypeColor(card.cardType, card.type);
 
   return (
     <div
       onClick={onClick}
-      className={`relative w-32 h-44 rounded-lg p-2 cursor-pointer transition-all transform hover:scale-105 ${
-        disabled ? "opacity-50 cursor-not-allowed" : ""
-      } ${isSelected ? "ring-4 ring-yellow-400 scale-105" : ""} ${
-        canAttack ? "ring-2 ring-green-400 animate-pulse" : ""
-      } bg-gradient-to-br ${cardColor} shadow-lg`}
+      style={{ transform: `scale(${scale})` }}
+      className={`relative w-32 h-44 rounded-lg p-2 cursor-pointer transition-all origin-center hover:z-10 hover:scale-[1.05] ${disabled ? "opacity-50 cursor-not-allowed" : ""
+        } ${isSelected ? "ring-4 ring-yellow-400 scale-[1.05]" : ""} ${canAttack ? "ring-2 ring-green-400 animate-pulse" : ""
+        } bg-gradient-to-br ${cardColor} shadow-lg`}
     >
       {showCost && (
         <div className="absolute -top-2 -left-2 w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center font-bold text-white border-2 border-amber-600">
