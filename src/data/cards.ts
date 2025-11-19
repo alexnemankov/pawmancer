@@ -184,7 +184,7 @@ export const CARD_LIBRARY = [
     cardType: "dog",
     type: "Shadow",
     ability: "Stealth: 40% dodge first turn",
-    art: "🥷🐕",
+    art: "🗡️🐕",
   },
   {
     id: 18,

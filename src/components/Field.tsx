@@ -27,7 +27,7 @@ export default function Field({
       {title && (
         <div className="text-white text-lg font-bold mb-2">{title}</div>
       )}
-      <div className="flex gap-2 flex-wrap min-h-[180px] justify-center">
+      <div className="flex gap-2 flex-wrap min-h-[230px] justify-center">
         {cards.map((card) => (
           <Card
             key={card.uid}

@@ -907,7 +907,7 @@ This section outlines the planned development tasks with priorities and dependen
 
 ---
 
-#### 8. Update GDD Content (High Priority) - COMPLETED
+#### 8. Update GDD Content (High Priority) - ✅ **COMPLETED**
 
 **Purpose:** Keep documentation in sync with game changes.
 
@@ -940,7 +940,7 @@ This section outlines the planned development tasks with priorities and dependen
 
 ---
 
-#### 10. Combat Board UX Overhaul (High Priority)
+#### 10. Combat Board UX Overhaul (High Priority) ✅ **COMPLETED**
 
 **Purpose:** Address the new layout critique by tightening the battlefield, clarifying available actions, and reinforcing the playful Pawmancer theme.
 
@@ -967,6 +967,55 @@ This section outlines the planned development tasks with priorities and dependen
   - **Particles:** Created `EffectManager.tsx` to handle "summon" (dust) and "scratch" (attack) particle effects.
   - **Card Feedback:** Enhanced `Card.tsx` with hover scaling, golden rings, and attack-ready pulses.
   - **Events:** Implemented `gameEvents.ts` observer pattern to trigger effects from game logic.
+
+---
+
+#### 11. Card Design Upgrade (High Priority) ✅ **COMPLETED**
+
+**Purpose:** Improve card clarity, readability, and thematic flair to make them feel more collectible, premium, and aligned with the playful Pawmancer tone.
+
+**Dependencies:** Battlefield visual theming (Task 10) and stat system consistency (Task 6).
+
+**Tasks:**
+
+- [x] **Card layout restructuring** – Separate the card into clear visual zones:
+  - **Implementation:** Refactored `Card.tsx` to use a vertical flex layout (`flex-col`).
+  - **Zones:** Cost (top-left), Rarity Gem (top-right), Illustration (center), Name/Type (below art), Divider, Stats (row), Ability Box (bottom).
+  - **Scaling:** Added `scale` prop to resize cards in hand (0.85x) vs field (1.0x).
+
+- [x] **Stat visibility upgrade** – Make attack/health easier to scan at a glance.
+  - **Visuals:** Stats are now displayed in pill-shaped capsules (`rounded-full bg-slate-900/60`) with backdrop blur.
+  - **Icons:** Used `Sword` (Yellow) for Attack and `Heart` (Red) for Health from `lucide-react`.
+  - **Contrast:** Added shadow and border to ensure readability against card backgrounds.
+
+- [x] **Name & role hierarchy clarity**
+  - **Typography:** Name is now `font-black text-sm` for high readability.
+  - **Tags:** Subclass/Type is displayed in a smaller uppercase tag (`text-[9px] tracking-widest`).
+  - **Divider:** Added a subtle gradient divider line to separate header info from stats/abilities.
+
+- [x] **Ability box enhancement**
+  - **Design:** Replaced flat box with a gradient panel (`bg-gradient-to-br from-slate-900/90`) and inner shadow.
+  - **Typography:** Text is `text-[9px]` with `leading-tight` and `line-clamp-3` to prevent overflow.
+  - **Layout:** Fixed height (`h-14`) ensures consistent card silhouette.
+
+- [x] **Depth & polish pass**
+  - **3D Effects:** Implemented `perspective` and `rotateX` transforms on hover for a tactile feel.
+  - **Shadows:** Added `shadow-lg` for base state and `shadow-2xl` + lift (`-translate-y-3`) on hover.
+  - **Glows:** Added "Ready to Play" white ring and "Can Attack" red pulse effects.
+
+- [x] **Rarity framework (visual only for now)**
+  - **System:** Implemented `getRarityStyles` helper in `Card.tsx`.
+  - **Tiers:**
+    - **Common:** Slate border/shadow.
+    - **Rare:** Blue border/shadow/gem.
+    - **Epic:** Purple border/shadow/gem.
+    - **Legendary:** Amber/Gold border/shadow/gem.
+  - **Visuals:** Rarity determines the border color, shadow color, and the color of the "gem" in the top-right corner.
+
+- [x] **Responsive scaling**
+  - **Optimization:** Used `will-change-transform` to prevent blurriness during animations.
+  - **Layout:** Adjusted container sizes in `GameBoard.tsx` (`min-h-[280px]`) to prevent overlap on smaller screens.
+  - **Text:** Tuned font sizes to be legible at card scale.
 
 ---
 

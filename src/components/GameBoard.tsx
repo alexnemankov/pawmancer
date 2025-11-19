@@ -177,7 +177,7 @@ export default function GameBoard({
         </section>
 
         {/* MIDDLE: Player Field */}
-        <section className="relative flex-1 rounded-3xl border border-blue-900/50 bg-gradient-to-b from-teal-950 to-slate-900 p-4 shadow-lg shadow-blue-900/20 min-h-[150px] overflow-hidden">
+        <section className="relative flex-1 rounded-3xl border border-blue-900/50 bg-gradient-to-b from-teal-950 to-slate-900 p-4 shadow-lg shadow-blue-900/20 min-h-[280px] overflow-hidden">
           <PawPrintPattern opacity={0.03} className="text-blue-200" />
 
           <div className="relative mb-2 flex items-center justify-between text-xs uppercase tracking-[0.3em] text-blue-200/60 font-bold z-10">

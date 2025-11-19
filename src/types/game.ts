@@ -25,6 +25,7 @@ export interface Card {
   uid?: string;
   canAttack?: boolean;
   hasAttacked?: boolean;
+  rarity?: "common" | "rare" | "epic" | "legendary";
 }
 
 export type GameState = "start" | "hero-select" | "playing";
