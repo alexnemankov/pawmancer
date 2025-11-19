@@ -6,6 +6,9 @@ import Field from "./Field";
 import Card from "./Card";
 import TargetingArrow from "./TargetingArrow";
 import { PawPrintPattern, BonePattern } from "./BackgroundPatterns";
+import TurnBanner from "./TurnBanner";
+import EffectManager from "./EffectManager";
+import { gameEvents } from "../utils/gameEvents";
 
 interface GameBoardProps {
   turn: number;
@@ -22,11 +25,6 @@ interface GameBoardProps {
   playerField: CardType[];
   enemyField: CardType[];
   playerHand: CardType[];
-  selectedCard: CardType | null;
-  selectedAttacker: CardType | null;
-  onPlayerFieldCardClick: (card: CardType) => void;
-  onEnemyFieldCardClick: (card: CardType) => void;
-  onHandCardClick: (card: CardType) => void;
   onHeroAbility: () => void;
   onEndTurn: () => void;
   onAttackEnemy: () => void;
@@ -34,6 +32,12 @@ interface GameBoardProps {
   canAttackEnemy: boolean;
   showGuidedHints: boolean;
   onDismissGuidedHints: () => void;
+  // Controlled props
+  selectedCard: CardType | null;
+  selectedAttacker: CardType | null;
+  onPlayerFieldCardClick: (card: CardType) => void;
+  onEnemyFieldCardClick: (card: CardType) => void;
+  onHandCardClick: (card: CardType) => void;
 }
 
 export default function GameBoard({
@@ -51,11 +55,6 @@ export default function GameBoard({
   playerField,
   enemyField,
   playerHand,
-  selectedCard,
-  selectedAttacker,
-  onPlayerFieldCardClick,
-  onEnemyFieldCardClick,
-  onHandCardClick,
   onHeroAbility,
   onEndTurn,
   onAttackEnemy,
@@ -63,6 +62,11 @@ export default function GameBoard({
   canAttackEnemy,
   showGuidedHints,
   onDismissGuidedHints,
+  selectedCard,
+  selectedAttacker,
+  onPlayerFieldCardClick,
+  onEnemyFieldCardClick,
+  onHandCardClick,
 }: GameBoardProps) {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [attackerPos, setAttackerPos] = useState({ x: 0, y: 0 });
@@ -78,9 +82,6 @@ export default function GameBoard({
   // Update attacker position when selectedAttacker changes
   useEffect(() => {
     if (selectedAttacker?.uid) {
-      // Find the element for the selected attacker
-      // This is a bit hacky, ideally we'd use refs, but for now we'll query by ID if we add one to Card
-      // Or we can just center it on the screen for now as a fallback, but let's try to get the element
       const element = document.getElementById(`card-${selectedAttacker.uid}`);
       if (element) {
         const rect = element.getBoundingClientRect();
@@ -92,6 +93,24 @@ export default function GameBoard({
     }
   }, [selectedAttacker]);
 
+  const handlePlayerFieldCardClick = (card: CardType) => {
+    onPlayerFieldCardClick(card);
+  };
+
+  const handleEnemyFieldCardClick = (card: CardType) => {
+    if (selectedAttacker) {
+      gameEvents.emit("effect", { type: "scratch", targetId: card.uid });
+    }
+    onEnemyFieldCardClick(card);
+  };
+
+  const handleHandCardClick = (card: CardType) => {
+    // If we are playing a card (simple check: player turn & enough treats), emit summon
+    if (isPlayerTurn && playerTreats >= card.cost) {
+      gameEvents.emit("effect", { type: "summon", targetId: card.uid });
+    }
+    onHandCardClick(card);
+  };
   const canAttackIds = new Set(
     playerField
       .filter((c) => c.canAttack && !c.hasAttacked && isPlayerTurn)
@@ -105,6 +124,9 @@ export default function GameBoard({
 
   return (
     <div className="flex h-screen w-full flex-col bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 overflow-hidden">
+      <TurnBanner isPlayerTurn={isPlayerTurn} turn={turn} />
+      <EffectManager />
+
       {selectedAttacker && (
         <TargetingArrow start={attackerPos} end={mousePos} />
       )}
@@ -116,6 +138,7 @@ export default function GameBoard({
         onQuit={onQuit}
         onOpenTutorial={onOpenTutorial}
         showTutorialPulse={showGuidedHints}
+        onDismissGuidedHints={onDismissGuidedHints}
       />
 
       <div className="flex flex-1 flex-col gap-2 p-4 overflow-y-auto">
@@ -146,7 +169,7 @@ export default function GameBoard({
 
           <Field
             cards={enemyField}
-            onCardClick={onEnemyFieldCardClick}
+            onCardClick={handleEnemyFieldCardClick}
             showCost={false}
             validTargetIds={validTargetIds}
             className="relative z-10"
@@ -163,7 +186,7 @@ export default function GameBoard({
           </div>
           <Field
             cards={playerField}
-            onCardClick={onPlayerFieldCardClick}
+            onCardClick={handlePlayerFieldCardClick}
             showCost={false}
             selectedCardId={selectedAttacker?.uid}
             canAttackIds={canAttackIds}
@@ -189,7 +212,7 @@ export default function GameBoard({
                   key={card.uid}
                   id={`card-${card.uid}`} // Add ID for targeting
                   card={card}
-                  onClick={() => onHandCardClick(card)}
+                  onClick={() => handleHandCardClick(card)}
                   disabled={!isPlayerTurn || playerTreats < card.cost}
                   isSelected={selectedCard?.uid === card.uid}
                   scale={0.85}

@@ -26,18 +26,20 @@ export default function Card({
   isValidTarget = false,
 }: CardProps) {
   const cardColor = getCardTypeColor(card.cardType, card.type);
+  const isReadyToPlay = !disabled && !isSelected && !canAttack && !isValidTarget;
+  const shouldPulse = canAttack; // Use canAttack prop for pulse logic
 
   return (
     <div
       id={id}
       onClick={onClick}
       style={{ transform: `scale(${scale})` }}
-      className={`relative w-32 h-44 rounded-lg p-2 cursor-pointer transition-all duration-200 origin-center
-        ${disabled ? "opacity-50 cursor-not-allowed grayscale-[0.5]" : "hover:z-10 hover:-translate-y-2 hover:shadow-xl hover:shadow-black/50"}
+      className={`relative w-32 h-44 rounded-lg p-2 cursor-pointer transition-all duration-150 ease-out origin-center
+        ${disabled ? "opacity-50 cursor-not-allowed grayscale-[0.5]" : "hover:z-10 hover:-translate-y-2 hover:shadow-xl hover:shadow-black/50 hover:scale-105 hover:ring-2 hover:ring-amber-300"}
         ${isSelected ? "ring-4 ring-yellow-400 scale-[1.05] z-10 shadow-[0_0_20px_rgba(250,204,21,0.6)]" : ""}
-        ${canAttack ? "ring-4 ring-red-500 shadow-[0_0_15px_rgba(239,68,68,0.6)] animate-pulse" : ""}
+        ${shouldPulse ? "ring-4 ring-red-500 shadow-[0_0_15px_rgba(239,68,68,0.6)] animate-pulse" : ""}
         ${isValidTarget ? "ring-4 ring-red-500 cursor-crosshair shadow-[0_0_20px_rgba(239,68,68,0.8)] hover:scale-[1.05]" : ""}
-        ${!disabled && !isSelected && !canAttack && !isValidTarget ? "hover:ring-2 hover:ring-white/50" : ""}
+        ${isReadyToPlay ? "hover:ring-2 hover:ring-white/50" : ""}
         bg-gradient-to-br ${cardColor} shadow-lg`}
     >
       {showCost && (

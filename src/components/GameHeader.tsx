@@ -5,6 +5,7 @@ interface GameHeaderProps {
   onQuit: () => void;
   onOpenTutorial: () => void;
   showTutorialPulse?: boolean;
+  onDismissGuidedHints?: () => void;
 }
 
 export default function GameHeader({
@@ -14,7 +15,15 @@ export default function GameHeader({
   onQuit,
   onOpenTutorial,
   showTutorialPulse = false,
+  onDismissGuidedHints,
 }: GameHeaderProps) {
+  const handleOpenTutorial = () => {
+    onOpenTutorial();
+    if (onDismissGuidedHints) {
+      onDismissGuidedHints();
+    }
+  };
+
   return (
     <div className="relative mb-4 flex items-center justify-between rounded-xl bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 px-6 py-3 shadow-lg border-y border-white/10">
       {/* Left: Turn Counter */}
@@ -41,10 +50,10 @@ export default function GameHeader({
       {/* Right: Controls */}
       <div className="flex gap-2">
         <button
-          onClick={onOpenTutorial}
+          onClick={handleOpenTutorial}
           className={`rounded-lg border border-white/20 bg-white/5 px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-white transition hover:bg-white/10 ${showTutorialPulse
-              ? "animate-pulse ring-2 ring-amber-400/50"
-              : ""
+            ? "animate-pulse ring-2 ring-amber-400/50"
+            : ""
             }`}
         >
           Tips

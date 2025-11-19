@@ -962,7 +962,11 @@ This section outlines the planned development tasks with priorities and dependen
   - **Backgrounds:** Implemented `BackgroundPatterns.tsx` with SVG Bone (Enemy) and PawPrint (Player) patterns.
   - **Gradients:** Applied deep Crimson/Purple for Enemy and Teal/Navy for Player zones.
   - **Props:** Added decorative SVG elements to the enemy zone.
-- [ ] **Microinteractions & effects:** Implement hover/ready glows, attack-ready pulses, turn-start banners, and thematic particles for abilities (scratches, sparkles, summon dust).
+- [x] **Microinteractions & effects:** Implement hover/ready glows, attack-ready pulses, turn-start banners, and thematic particles for abilities (scratches, sparkles, summon dust).
+  - **Turn Banner:** Implemented `TurnBanner.tsx` with animated slide-down/fade-in effect and distinct styles for Player/Enemy turns.
+  - **Particles:** Created `EffectManager.tsx` to handle "summon" (dust) and "scratch" (attack) particle effects.
+  - **Card Feedback:** Enhanced `Card.tsx` with hover scaling, golden rings, and attack-ready pulses.
+  - **Events:** Implemented `gameEvents.ts` observer pattern to trigger effects from game logic.
 
 ---
 
