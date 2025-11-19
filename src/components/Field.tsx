@@ -7,6 +7,8 @@ interface FieldProps {
   showCost?: boolean;
   selectedCardId?: string;
   canAttackIds?: Set<string>;
+  isValidTargetId?: string; // Or maybe a Set if multiple targets are valid? Let's use a Set for flexibility or just a boolean check in the map
+  validTargetIds?: Set<string>;
   title?: string;
   className?: string;
 }
@@ -17,6 +19,7 @@ export default function Field({
   showCost = false,
   selectedCardId,
   canAttackIds,
+  validTargetIds,
   title,
   className = "",
 }: FieldProps) {
@@ -29,11 +32,13 @@ export default function Field({
         {cards.map((card) => (
           <Card
             key={card.uid}
+            id={`card-${card.uid}`}
             card={card}
             onClick={() => onCardClick?.(card)}
             showCost={showCost}
             isSelected={selectedCardId === card.uid}
             canAttack={canAttackIds?.has(card.uid || "") || false}
+            isValidTarget={validTargetIds?.has(card.uid || "") || false}
           />
         ))}
       </div>

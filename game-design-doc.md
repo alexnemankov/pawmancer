@@ -943,6 +943,26 @@ This section outlines the planned development tasks with priorities and dependen
 #### 10. Combat Board UX Overhaul (High Priority)
 
 **Purpose:** Address the new layout critique by tightening the battlefield, clarifying available actions, and reinforcing the playful Pawmancer theme.
+
+**Dependencies:** Hero roster and selection refresh (Tasks 7-9) so the combat screen can take center stage.
+
+**Tasks:**
+
+- [x] **Compress battlefield layout:** Game screen now uses a three-column layout with a slimmed header, clustered hero/treat modules, and tighter spacing between enemy/player lanes.
+  - Header bar trimmed to a tighter `py-2` padding and darker strip, keeping turn text + tutorial affordances visible without consuming vertical space.
+  - Enemy and player rows now sit inside a shared column container with a modest gap (`gap-y-4`), minimizing the dead band between halves and keeping the 'Your Dogs' label from creating extra whitespace.
+  - New `HeroPanel` clusters hero portrait, health, treats, and (for the player) hero power using `flex items-center gap-3`, eliminating stray counters and ensuring the info always travels with each hero banner.
+- [x] **Clarify hierarchy:** Make hero health/treat counters larger, consolidate “Turn/Your Turn/message” into one celebratory banner, and move End Turn / Attack Enemy into a dedicated control corner.
+- [x] **Interaction feedback:** Add attack arrows and target highlights, bake costs/readiness into the hero power button, and provide drag/hover affordances for playable cards.
+  - **Targeting Arrow:** Implemented `TargetingArrow.tsx` as an SVG overlay connecting the selected attacker to the mouse cursor with a quadratic Bezier curve.
+  - **Target Highlights:** Valid targets now glow red (`ring-4 ring-red-500`) with a crosshair cursor when an attacker is selected.
+  - **Hero Power Button:** Added visual readiness state; button pulses and glows purple when the player has enough treats and the ability is unused.
+  - **Card Affordances:** Added "lift" hover effects (`hover:-translate-y-2`) and shadow depth to cards in hand to indicate interactivity.
+- [ ] **Visual theming:** Replace flat bands with pawprint or bone patterns, add subtle props near hero zones, and apply gradients that distinguish enemy vs. player halves.
+- [ ] **Microinteractions & effects:** Implement hover/ready glows, attack-ready pulses, turn-start banners, and thematic particles for abilities (scratches, sparkles, summon dust).
+
+---
+
 #### 11. Campaign Mode Section (Medium Priority)
 
 **Dependencies:** None

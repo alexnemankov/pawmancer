@@ -1,8 +1,10 @@
 import { Hero, Card as CardType } from "../types/game";
+import { useState, useEffect } from "react";
 import GameHeader from "./GameHeader";
 import HeroInfo from "./HeroInfo";
 import Field from "./Field";
 import Card from "./Card";
+import TargetingArrow from "./TargetingArrow";
 
 interface GameBoardProps {
   turn: number;
@@ -61,14 +63,51 @@ export default function GameBoard({
   showGuidedHints,
   onDismissGuidedHints,
 }: GameBoardProps) {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [attackerPos, setAttackerPos] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  // Update attacker position when selectedAttacker changes
+  useEffect(() => {
+    if (selectedAttacker?.uid) {
+      // Find the element for the selected attacker
+      // This is a bit hacky, ideally we'd use refs, but for now we'll query by ID if we add one to Card
+      // Or we can just center it on the screen for now as a fallback, but let's try to get the element
+      const element = document.getElementById(`card-${selectedAttacker.uid}`);
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        setAttackerPos({
+          x: rect.left + rect.width / 2,
+          y: rect.top + rect.height / 2,
+        });
+      }
+    }
+  }, [selectedAttacker]);
+
   const canAttackIds = new Set(
     playerField
       .filter((c) => c.canAttack && !c.hasAttacked && isPlayerTurn)
       .map((c) => c.uid || "")
   );
 
+  // If an attacker is selected, all enemy cards are valid targets (simplification)
+  const validTargetIds = new Set(
+    selectedAttacker ? enemyField.map((c) => c.uid || "") : []
+  );
+
   return (
     <div className="flex h-screen w-full flex-col bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 overflow-hidden">
+      {selectedAttacker && (
+        <TargetingArrow start={attackerPos} end={mousePos} />
+      )}
+
       <GameHeader
         turn={turn}
         isPlayerTurn={isPlayerTurn}
@@ -99,6 +138,7 @@ export default function GameBoard({
             cards={enemyField}
             onCardClick={onEnemyFieldCardClick}
             showCost={false}
+            validTargetIds={validTargetIds}
           />
         </section>
 
@@ -131,6 +171,7 @@ export default function GameBoard({
               {playerHand.map((card) => (
                 <Card
                   key={card.uid}
+                  id={`card-${card.uid}`} // Add ID for targeting
                   card={card}
                   onClick={() => onHandCardClick(card)}
                   disabled={!isPlayerTurn || playerTreats < card.cost}
@@ -161,7 +202,8 @@ export default function GameBoard({
               <button
                 onClick={onHeroAbility}
                 disabled={!canUseHeroAbility}
-                className="flex flex-col items-center justify-center rounded-xl border border-white/10 bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 text-white transition hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                className={`flex flex-col items-center justify-center rounded-xl border border-white/10 bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 text-white transition hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed ${canUseHeroAbility ? "shadow-[0_0_15px_rgba(168,85,247,0.6)] animate-pulse ring-2 ring-purple-400" : ""
+                  }`}
               >
                 <span className="text-xs font-bold uppercase tracking-wider">Ability</span>
                 <span className="text-[10px] opacity-80">{playerHero.abilityCost} Treats</span>
