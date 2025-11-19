@@ -58,19 +58,19 @@ export default function HeroInfo({
       <div
         className={`flex items-center rounded-2xl bg-green-600/80 font-bold ${isColumn
             ? "text-2xl justify-between px-4 py-2"
-            : `${compact ? "px-2 py-1 text-sm" : "px-4 py-2 text-xl"}`
+            : `${compact ? "px-2 py-1 text-sm" : "px-5 py-2.5 text-2xl"}`
           }`}
       >
         <span className="flex items-center gap-2 text-white">
-          <Heart size={compact ? 14 : 20} />
+          <Heart size={compact ? 14 : 24} />
           {health}
         </span>
       </div>
       {showTreats && treats !== undefined && maxTreats !== undefined && (
-        <div className={`flex items-center justify-between rounded-2xl bg-amber-500/80 font-bold text-white ${compact ? "px-2 py-1" : "px-4 py-2 w-full"
+        <div className={`flex items-center justify-between rounded-2xl bg-amber-500/80 font-bold text-white ${compact ? "px-2 py-1" : "px-5 py-2.5 w-full"
           }`}>
           <span className={`text-sm uppercase tracking-[0.3em] ${compact ? "hidden" : ""}`}>Treats</span>
-          <span className={compact ? "text-sm" : "text-xl"}>
+          <span className={compact ? "text-sm" : "text-2xl"}>
             {treats}/{maxTreats}
           </span>
         </div>

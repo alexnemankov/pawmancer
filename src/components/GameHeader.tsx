@@ -16,32 +16,42 @@ export default function GameHeader({
   showTutorialPulse = false,
 }: GameHeaderProps) {
   return (
-    <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/10 bg-slate-900/40 px-4 py-2">
-      <div className="text-white leading-tight">
-        <div className="text-xs uppercase tracking-[0.3em] text-white/60">
-          Turn {turn}
+    <div className="relative mb-4 flex items-center justify-between rounded-xl bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 px-6 py-3 shadow-lg border-y border-white/10">
+      {/* Left: Turn Counter */}
+      <div className="flex items-center gap-3">
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-700 font-bold text-white shadow-inner ring-2 ring-white/10">
+          {turn}
         </div>
-        <div className="text-base font-bold">
+        <div className="text-xs font-bold uppercase tracking-widest text-slate-400">
+          Turn
+        </div>
+      </div>
+
+      {/* Center: Status Banner */}
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+        <div
+          className={`text-2xl font-black uppercase tracking-wider drop-shadow-lg transition-colors duration-300 ${isPlayerTurn ? "text-amber-400" : "text-red-400"
+            }`}
+        >
           {isPlayerTurn ? "Your Turn" : "Enemy Turn"}
         </div>
+        <div className="text-sm font-medium text-white/80">{message}</div>
       </div>
-      <div className="flex-1 rounded-full bg-black/40 px-4 py-2 text-center text-sm font-semibold text-white shadow-inner">
-        {message}
-      </div>
+
+      {/* Right: Controls */}
       <div className="flex gap-2">
         <button
           onClick={onOpenTutorial}
-          className={`rounded-full border border-white/40 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-white/10 ${
-            showTutorialPulse
-              ? "shadow-[0_0_0_2px_rgba(190,242,100,0.4)]"
+          className={`rounded-lg border border-white/20 bg-white/5 px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-white transition hover:bg-white/10 ${showTutorialPulse
+              ? "animate-pulse ring-2 ring-amber-400/50"
               : ""
-          }`}
+            }`}
         >
-          Tutorial
+          Tips
         </button>
         <button
           onClick={onQuit}
-          className="rounded-full bg-red-500 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-red-600"
+          className="rounded-lg bg-red-500/20 px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-red-200 transition hover:bg-red-500/40"
         >
           Quit
         </button>
